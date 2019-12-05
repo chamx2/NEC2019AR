@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public float delay;
+    public GameObject instructionGameObject;
 
     public List<GameObject> listImage;
 
@@ -13,6 +16,8 @@ public class GameManager : MonoBehaviour
     public GameObject aboutParent;
     public List<GameObject> sectionList;
     public int sectionIndex = 0;
+    public List<GameObject> aboutList;
+    private int aboutIndex = 0;
 
     [Header("EMB Assets")]
     public GameObject embParent;
@@ -26,6 +31,60 @@ public class GameManager : MonoBehaviour
     [Header("Awardees")]
     public List<GameObject> awardeesList;
     private int awardeesIndex = 0;
+
+    [Header("Program")]
+    public List<GameObject> programList;
+    private int programIndex = 0;
+
+
+    
+
+    void Start()
+    {
+        StartCoroutine(DestroyInstructions(delay));
+    }
+
+    IEnumerator DestroyInstructions(float delay)
+    {
+      
+        yield return new WaitForSeconds(delay);
+        Destroy(instructionGameObject);
+       
+    }
+
+    #region About
+
+
+    public void NextAbout()
+    {
+        aboutList[aboutIndex].SetActive(false);
+        if (aboutIndex >= aboutList.Count - 1)
+        {
+
+            aboutIndex = 0;
+        }
+        else
+        {
+            aboutIndex++;
+        }
+        aboutList[aboutIndex].SetActive(true);
+    }
+
+    public void PrevAbout()
+    {
+        aboutList[aboutIndex].SetActive(false);
+        if (aboutIndex <= 0)
+        {
+            aboutIndex = aboutList.Count - 1;
+        }
+        else
+        {
+            aboutIndex--;
+        }
+        awardeesList[aboutIndex].SetActive(true);
+    }
+
+    #endregion
 
     #region MAIN CONTENTS
     public void NextSection()
@@ -156,6 +215,40 @@ public class GameManager : MonoBehaviour
             awardeesIndex--;
         }
         awardeesList[awardeesIndex].SetActive(true);
+    }
+
+    #endregion
+
+    #region Program
+
+
+    public void NextProgram()
+    {
+        programList[programIndex].SetActive(false);
+        if (programIndex >= programList.Count - 1)
+        {
+
+            programIndex = 0;
+        }
+        else
+        {
+            programIndex++;
+        }
+        programList[programIndex].SetActive(true);
+    }
+
+    public void PrevProgram()
+    {
+        programList[programIndex].SetActive(false);
+        if (programIndex <= 0)
+        {
+            programIndex = programList.Count - 1;
+        }
+        else
+        {
+            programIndex--;
+        }
+        programList[programIndex].SetActive(true);
     }
 
     #endregion
